@@ -1,0 +1,25 @@
+###
+GET http://localhost:1337/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJyb2xlIjoyLCJpYXQiOjE3Mzk4NzY1NTh9.kxUwSuR7iRQRYWoZJrYcKhgyuyh7LpmOOk-ApogAqpo
+
+###
+POST http://localhost:1337/register
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "johndoe@gmail.com",
+    "contact": "123456789",
+    "password": "password"
+}
+
+###
+POST http://localhost:1337/login
+Content-Type: application/json
+
+{
+    "email": "johndoe@gmail.com",
+    "password": "password"
+}
+
+{"items":[{"product_id":1,"quantity":1,"total_unit_price":500,"service":"Dry cleaning"},{"product_id":2,"quantity":1,"total_unit_price":500,"service":"Dry cleaning"}],"totalPrice":1000,"pickup_time":"2025-03-12T22:06","delivery_time":"2025-03-19T22:06","location":{"latitude":"-1.4004050164022652","longitude":"36.75670974668913"}}

@@ -1,0 +1,20 @@
+# ignore the .env file
+.env 
+
+# ignore the node_modules directory
+node_modules/
+
+#ignore the package-lock.json file
+package-lock.json
+
+# ignore the designs directory
+designs/
+
+# ignore qodana.yaml file 
+qodana.yaml
+
+# ignore designs directory
+designs/
+
+# ignore the .idea directory
+.idea/
