@@ -1,21 +1,29 @@
 document.getElementById("user-register").addEventListener("submit", async function(event){
     event.preventDefault();
 
+    const form = document.getElementById("user-register");
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const contact = document.getElementById("contact").value;
     const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
+    const confirmPassword = document.getElementById("password2").value;
+
+
+    // Getting all input fields and clearing them of the error messages
+    const inputs = document.querySelectorAll("input");
+    inputs.forEach(input => {
+        input.classList.remove("is-invalid");
+        input.nextElementSibling.innerText = "";
+    })
 
     if(password !== confirmPassword){
-        const alert = document.getElementById("passwordConfirmationAlert");
+        document.getElementById("password").value= "";
+        document.getElementById("password2").value= "";
 
-        alert.style.display = "block";
+        document.getElementById("password2").classList.add("is-invalid");
+        document.getElementById("password2-feedback").innerText = "Passwords do not match";
 
-        document.getElementById("password").value = "";
-        document.getElementById("confirmPassword").value = "";
-
-        return false;
+        return;
     }
 
    try {
@@ -28,17 +36,21 @@ document.getElementById("user-register").addEventListener("submit", async functi
             name: name,
             email: email,
             contact: contact,
-            password: password
+            password: password,
         })
     });
 
     const result = await response.json();
-    if (result.ok) {
-        window.location.href = "/";
-    } else {
-        alert("Registration failed. Please try again.");
-    }
+        if (response.ok) {
+            window.location.href = "/";
+            form.reset();
+        }else if(response.status === 422){
+            result.message.forEach(error => {
+                document.getElementById(error.fieldName).classList.add("is-invalid");
+                document.getElementById(`${error.fieldName}-feedback`).innerText = error.errorMessage;
+            })
+        }
    } catch (error) {
-    alert("Please try again.");
-   }
+    alert(`${error}`);
+    }
 })

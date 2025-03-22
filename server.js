@@ -21,7 +21,7 @@ app.use(cookieParser())
 // Logging of requests
 app.use(morgan('combined'));
 // Setting static directory
-app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 
 // Routes

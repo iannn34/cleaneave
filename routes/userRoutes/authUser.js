@@ -1,25 +1,13 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import pool from "../../config/db";
-
-/**
- * Handles user login by verifying email and password, generating a JWT token, and storing it in a cookie.
- * 
- * @param {Object} req - The request object.
- * @param {Object} req.body - The body of the request.
- * @param {string} req.body.email - The email of the user.
- * @param {string} req.body.password - The password of the user.
- * @param {Object} res - The response object.
- * 
- * @returns {Promise<void>} - Returns a promise that resolves to void.
- * 
- * @throws {Error} - Throws an error if there is an issue with the database query or token generation.
- */
-
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const pool = require("../../config/db");
+const loginSchema = require("../../schemas/login");
 
 const login = async (req,res) => {
     try {
         const { email , password } = req.body;
+
+        await loginSchema.validateAsync(req.body);
 
         let user;
 
@@ -30,7 +18,7 @@ const login = async (req,res) => {
         }
 
         if (user.rows.length === 0) {
-            return res.status(404).json({message : "Unregistered email"});
+            return res.status(401).json({message : "Incorrect email and password combination. \nPlease try again or click Forgot password to reset your password"});
         }
 
         const hashedPassword = user.rows[0].password;
@@ -47,9 +35,17 @@ const login = async (req,res) => {
 
             res.json({ message: "Login successful, token generated" })
         } else {
-            return res.status(401).json({message : "Invalid password"});
+            return res.status(401).json({message : "Incorrect email and password combination. \nPlease try again or click Forgot password to reset your password"});
         }
     } catch (error) {
+        if(error.isJoi){
+            res.status(422).json({message  : error.details.map(err => ({
+                    fieldName : err.path.join('.'),
+                    errorMessage : err.message
+                }))});
+            return;
+        }
+
         res.status(500).json({ message : "Internal server error"})
     }
 }

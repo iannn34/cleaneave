@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 throw new Error("Order failed. Please try again.");
             }
         } catch (error) {
-            alert("Please try again.");
+            alert(`${error}`);
         }
     })
 });

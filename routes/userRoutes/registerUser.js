@@ -1,13 +1,18 @@
 const pool = require("../../config/db");
 const bcrypt = require("bcrypt");
+const joi = require("joi");
+const registerSchema = require("../../schemas/registration");
+const sendWelcome = require("../../mail/newMember")
 
 const register = async (req, res) => {
     try {
         const { name, email, contact, password } = req.body;
+       //
+       // if (!name || !email || !contact || !password) {
+       //     return res.status(400).json({ message: "All fields are required!" });
+       // }
+        await registerSchema.validateAsync(req.body,{abortEarly: false});
 
-        if (!name || !email || !contact || !password) {
-            return res.status(400).json({ message: "All fields are required!" });
-        }
 
         // Check if email already exists
         const existingUser = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
@@ -26,8 +31,18 @@ const register = async (req, res) => {
         // Send success message
         res.json({ message: "User registered successfully!" });
 
+
+        await sendWelcome(name, email);
     } catch (error) {
-        console.error("Registration error:", error);
+        if(error.isJoi){
+            res.status(422).json({message  : error.details.map(err => ({
+                    fieldName : err.path.join('.'),
+                    errorMessage : err.message
+            }))});
+            return;
+        }
+
+        //console.error("Registration error:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 }

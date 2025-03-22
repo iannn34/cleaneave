@@ -1,0 +1,19 @@
+body {
+    background-color: #f8f9fa;
+}
+.navbar-brand img {
+    height: 50px;
+}
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.footer {
+    background-color: #343a40;
+    color: #ffffff;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 50px;
+}

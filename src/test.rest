@@ -13,7 +13,25 @@ Content-Type: application/json
     "password": "password"
 }
 
-###
+### invalid email login
+POST http://localhost:1337/login
+Content-Type: application/json
+
+{
+    "email": "johndoe@gmail",
+    "password": "password"
+}
+
+### invalid password login
+POST http://localhost:1337/login
+Content-Type: application/json
+
+{
+    "email": "johndoe@gmail.com",
+    "password": "wrongPassword"
+}
+
+### valid login
 POST http://localhost:1337/login
 Content-Type: application/json
 
@@ -22,4 +40,13 @@ Content-Type: application/json
     "password": "password"
 }
 
-{"items":[{"product_id":1,"quantity":1,"total_unit_price":500,"service":"Dry cleaning"},{"product_id":2,"quantity":1,"total_unit_price":500,"service":"Dry cleaning"}],"totalPrice":1000,"pickup_time":"2025-03-12T22:06","delivery_time":"2025-03-19T22:06","location":{"latitude":"-1.4004050164022652","longitude":"36.75670974668913"}}
+### register user
+POST http://localhost:1337/register
+Content-Type: application/json
+
+{
+     "name" : "Ian",
+     "email" : "kiwitichani0@gmail.com",
+     "contact" : "129345678",
+     "password": "Hello@67"
+ }
