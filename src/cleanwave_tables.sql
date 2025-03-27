@@ -2,10 +2,19 @@
 -- tables present in the database are:
 -- 1. users
 -- 2. roles
+-- 3. orders
+-- 4. order_items
+-- 5. products
+-- 6. tokens
 
 -- Drop the tables if they exist
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS roles CASCADE;
+DROP TABLE IF EXISTS orders CASCADE;
+DROP TABLE IF EXISTS order_items CASCADE;
+DROP TABLE IF EXISTS products CASCADE;
+DROP TABLE IF EXISTS tokens CASCADE;
+
 
 -- Create roles table
 CREATE TABLE roles (
@@ -15,7 +24,8 @@ CREATE TABLE roles (
 );
 
 -- Insert default roles
-INSERT INTO roles (name) VALUES ('staff'), ('customer'),('admin');
+INSERT INTO roles (name)
+    VALUES ('staff'), ('customer'),('admin');
 
 -- Create users table
 CREATE TABLE users (
@@ -29,7 +39,8 @@ CREATE TABLE users (
 );
 
 -- Adding the verified field to my users table
-ALTER TABLE users ADD verified boolean DEFAULT false;
+ALTER TABLE users
+    ADD verified BOOLEAN DEFAULT FALSE;
 
 -- Create products table
 CREATE TABLE products (
@@ -54,8 +65,8 @@ CREATE TABLE orders (
 
 -- Changing the data type of the location column to jsonb from text
 -- for efficient storage of location date
-alter table orders
-alter column location type jsonb using location::jsonb;
+ALTER TABLE orders
+    ALTER COLUMN location TYPE JSONB USING location::JSONB;
 
 -- Create order_items table
 CREATE TABLE order_items (
@@ -73,4 +84,10 @@ CREATE TABLE tokens (
     token TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     expires_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP + INTERVAL '3 hours'
-)
+);
+
+-- Adding reference to user id for every token
+-- For enhanced security while verifying emails
+ALTER TABLE tokens
+    ADD COLUMN user_id INTEGER REFERENCES users NOT NULL DEFAULT 0;
+

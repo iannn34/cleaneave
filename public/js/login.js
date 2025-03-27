@@ -26,12 +26,14 @@ document.getElementById("login-form").addEventListener("submit", async function(
     const result = await response.json();
     if (response.ok) {
         window.location.href = "/";
+    } else if (response.status === 302){
+        window.location.href = result.redirectUrl;
     } else if(response.status === 422) {
         result.message.forEach(error => {
             document.getElementById(error.fieldName).classList.add("is-invalid");
             document.getElementById(`${error.fieldName}-feedback`).innerText = error.errorMessage;
         })
-    }else if(response.status === 401){
+    } else if(response.status === 401){
         document.getElementById("password").classList.add("is-invalid");
         document.getElementById("password").nextElementSibling.innerText = result.message;
 

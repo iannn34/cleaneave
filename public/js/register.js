@@ -17,8 +17,8 @@ document.getElementById("user-register").addEventListener("submit", async functi
     })
 
     if(password !== confirmPassword){
-        document.getElementById("password").value= "";
-        document.getElementById("password2").value= "";
+        document.getElementById("password").value = "";
+        document.getElementById("password2").value = "";
 
         document.getElementById("password2").classList.add("is-invalid");
         document.getElementById("password2-feedback").innerText = "Passwords do not match";
@@ -36,20 +36,29 @@ document.getElementById("user-register").addEventListener("submit", async functi
             name: name,
             email: email,
             contact: contact,
-            password: password,
+            password: password
         })
     });
 
     const result = await response.json();
-        if (response.ok) {
-            window.location.href = "/";
-            form.reset();
-        }else if(response.status === 422){
+         if (response.ok){
+             form.reset()
+             window.location.href = `/verify-email/email/${encodeURIComponent(email)}`;
+         }else if(response.status === 422){
             result.message.forEach(error => {
                 document.getElementById(error.fieldName).classList.add("is-invalid");
                 document.getElementById(`${error.fieldName}-feedback`).innerText = error.errorMessage;
+
+                document.getElementById("password").value = "";
+                document.getElementById("password2").value = "";
             })
-        }
+        }else if(response.status === 400){
+             document.getElementById("email").classList.add("is-invalid");
+             document.getElementById("email-feedback").innerText = result.message;
+
+             document.getElementById("password").value = "";
+             document.getElementById("password2").value = "";
+         }
    } catch (error) {
     alert(`${error}`);
     }

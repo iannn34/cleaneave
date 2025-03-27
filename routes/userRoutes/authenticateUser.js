@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const pool = require("../../config/db");
 const loginSchema = require("../../schemas/login");
+const sendVerificationMail = require("../../mail/verificationEmail")
 
 const login = async (req,res) => {
     try {
@@ -12,7 +13,7 @@ const login = async (req,res) => {
         let user;
 
         try {
-            user = await pool.query(`SELECT user_id,password,role_id FROM users WHERE email = $1` ,[email]);
+            user = await pool.query(`SELECT user_id, name , password , role_id , verified FROM users WHERE email = $1` ,[email]);
         } catch (dbError) {
             return res.status(500).json({ message: "Database query error" });
         }
@@ -24,6 +25,12 @@ const login = async (req,res) => {
         const hashedPassword = user.rows[0].password;
 
         const auth = await bcrypt.compare(password, hashedPassword);
+
+        if(!user.rows[0].verified){
+            await sendVerificationMail(user.rows[0].user_id , email , user.rows[0].name);
+
+            return res.status(302).json({ redirectUrl: `/verify-email/email/${encodeURIComponent(email)}` });
+        }
 
         if(auth){
             const accessToken  = jwt.sign({user_id:user.rows[0].user_id, role: user.rows[0].role_id} , process.env.SECRET_KEY, {expiresIn: '1h'});

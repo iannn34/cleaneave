@@ -4,12 +4,15 @@ const path = require('path');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const verifyToken  = require('./middleware/verifyToken');
-const verifyStaff  = require('./middleware/verifyStaff');
 const order = require('./routes/orderRoutes/placeOrder');
 const register = require('./routes/userRoutes/registerUser');
-const login = require('./routes/userRoutes/authUser');
+const verifyEmail = require('./middleware/verifyEmail');
+const login = require('./routes/userRoutes/authenticateUser');
 const getProducts = require('./routes/orderRoutes/getProducts');
 const logout = require('./routes/userRoutes/logout');
+const resendVerification = require("./routes/userRoutes/resendVerification")
+const passwordResetRequest = require("./routes/userRoutes/resetPasswordRequest");
+const resetPassword = require("./routes/userRoutes/resetPassword");
 
 // Port
 const port = process.env.SERVER_PORT;
@@ -27,7 +30,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 // Routes
 app.get(("/") ,async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname,"public","html","home.html"));
+        res.status(200).sendFile(path.join(__dirname,"public","html","home.html"));
     } catch (error) {
         res.sendStatus(500).json({ message : "Internal server error"})
     }
@@ -35,13 +38,25 @@ app.get(("/") ,async (req, res) => {
 
 app.get("/register" ,async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname,"public","html","register.html"));
+        res.status(200).sendFile(path.join(__dirname,"public","html","register.html"));
     } catch (error) {
         res.sendStatus(500).json({ message : "Internal server error"}) 
     }
 })
 
 app.post("/register" , register);
+
+app.get("/verify-email/:token", verifyEmail )
+
+app.get("/verify-email/email/:email" ,async (req, res) => {
+    try{
+        res.status(200).sendFile(path.join(__dirname,"public","html","verify-email.html"));
+    }catch (error) {
+        res.status(500).json({ message : "Internal server error"})
+    }
+})
+
+app.post("/resend-verification", resendVerification)
 
 app.get("/login", async (req,res) => {
     try {
@@ -52,6 +67,27 @@ app.get("/login", async (req,res) => {
 })
 
 app.post("/login" , login);
+
+app.get("/password-reset", async (req,res) => {
+    try{
+        res.sendFile(path.join(__dirname,"public","html","password-reset-request.html"));
+    }catch(error){
+        console.log(error)
+        res.status(500).json({message : "Internal server error"})
+    }
+})
+
+app.post("/password-reset", passwordResetRequest)
+
+app.get("/reset-password/:token", async (req,res) => {
+    try{
+        res.status(200).sendFile(path.join(__dirname,"public","html","password-reset.html"));
+    }catch(error){
+        res.status(500).json({message : "Internal server error"})
+    }
+})
+
+app.post("/reset-password/:token", resetPassword)
 
 app.get("/logout", logout)
 
