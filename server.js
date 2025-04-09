@@ -13,6 +13,11 @@ const logout = require('./routes/userRoutes/logout');
 const resendVerification = require("./routes/userRoutes/resendVerification")
 const passwordResetRequest = require("./routes/userRoutes/resetPasswordRequest");
 const resetPassword = require("./routes/userRoutes/resetPassword");
+const getUserInfo = require("./routes/userRoutes/getUserInfo");
+const getOrderInfo = require("./routes/orderRoutes/getOrderInfo");
+const favicon = require("serve-favicon");
+const checkAuth = require("./routes/userRoutes/checkAuth");
+const updateProfile = require('./routes/userRoutes/updateProfile');
 
 // Port
 const port = process.env.SERVER_PORT;
@@ -20,6 +25,7 @@ const port = process.env.SERVER_PORT;
 const app = express()
 // Allowing use of json in the application
 app.use(express.json())
+app.use(favicon(path.join(__dirname, "public", "assets" , "cleanwave.ico")));
 app.use(cookieParser())
 // Logging of requests
 app.use(morgan('combined'));
@@ -91,7 +97,28 @@ app.post("/reset-password/:token", resetPassword)
 
 app.get("/logout", logout)
 
-app.get("/api/products", verifyToken , getProducts)
+app.get("/api/check-auth" ,checkAuth);
+app.get("/api/products", verifyToken , getProducts);
+app.get("/api/user-info", verifyToken , getUserInfo);
+app.get("/api/order-details/:id", verifyToken , getOrderInfo);
+
+app.get("/price-list", async (req,res) => {
+    try{
+        res.sendFile(path.join(__dirname,"public", "html" , "price-list.html"));
+    }catch (error){
+        res.status(500).json({message : "Internal server error"})
+    }
+})
+
+app.get("/profile", verifyToken ,(req,res) => {
+    try{
+        res.status(200).sendFile(path.join(__dirname,"public", "html", "user-profile.html"));
+    }catch(error){
+        res.status(500).json({message : "Internal server error"})
+    }
+})
+
+app.patch("/update-profile", verifyToken , updateProfile)
 
 app.get("/order", verifyToken , async (req,res) => {
     try {
@@ -101,7 +128,15 @@ app.get("/order", verifyToken , async (req,res) => {
     }
 })
 
-app.post("/order", verifyToken , order )
+app.post("/order", verifyToken , order)
+
+app.get("/order-details/:id", async (req,res) => {
+    try{
+        res.sendFile(path.join(__dirname,"public","html", "order-details.html"));
+    }catch(error){
+        res.status(500).json({message : "Internal server error"})
+    }
+})
 
 // Verifying server is running
 app.listen(port, () => console.log(`Server is running on port ${process.env.SERVER_PORT}`));

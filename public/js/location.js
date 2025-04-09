@@ -22,5 +22,4 @@ function success(position){
 function error(error){
     document.getElementById("locationData").style.display = "block"
     document.getElementById("getLocation").style.display = "none";
-    alert("Permission denied");
 }

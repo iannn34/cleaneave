@@ -1,11 +1,11 @@
 const pool = require("../config/db")
 const sendWelcomeEmail = require("../mail/welcomeEmail");
-const getUserId = require("./getUserId");
+const getUser = require("./getUser");
 
 
 const verifyEmail = (async (req,res) =>{
    try{
-       const user_id = await getUserId(req.params.token);
+       const user_id = await getUser(req.params.token);
 
        if (!user_id) {
            return res.status(400).json({ message: "Invalid or expired token." });
@@ -21,6 +21,7 @@ const verifyEmail = (async (req,res) =>{
 
        res.status(200).redirect("/login")
    }catch (error){
+       console.log(error);
        res.status(500).json({message : "Internal Server Error"});
    }
 })

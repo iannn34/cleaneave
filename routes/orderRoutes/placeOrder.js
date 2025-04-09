@@ -1,9 +1,9 @@
 const getUserId = require("../../middleware/getUserId");
+const invoiceEmail = require("../../mail/invoiceEmail");
 const pool = require("../../config/db");
 
 const order = async (req,res) => {
-    const token = req.cookies.token;
-    const userId = getUserId(token);
+    const userId = getUserId(req.cookies.token);
     const client = await pool.connect();
 
     try {
@@ -33,7 +33,9 @@ const order = async (req,res) => {
 
         await client.query("COMMIT");
 
-        res.status(201).json({ message: "Order placed successfully!" ,redirectURL : "/"});
+        await invoiceEmail(orderId);
+
+        res.status(200).json({ message: "Order placed successfully!" ,redirectURL : `/order-details/${orderId}`});
     } catch (error) {
         await client.query("ROLLBACK");
         console.error("Order error:", error); // Log the error for debugging

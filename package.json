@@ -13,7 +13,8 @@
     "morgan": "^1.10.0",
     "nodemailer": "^6.10.0",
     "nodemon": "^3.1.9",
-    "pg": "^8.13.3"
+    "pg": "^8.13.3",
+    "serve-favicon": "^2.5.0"
   },
   "name": "cleanwave",
   "version": "1.0.0",

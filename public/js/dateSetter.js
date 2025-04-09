@@ -1,18 +1,34 @@
-const pickUpTime = document.getElementById('pickUpTime');
-const deliveryTime = document.getElementById('deliveryTime');
+function generateDateOptions() {
+    const pickupDateSelect = document.getElementById("pickup-date");
+    const deliveryDateSelect = document.getElementById("delivery-date");
+    const today = new Date();
+    let pickUpOptions = "";
+    let deliveryOptions = "";
 
-const currentTime = new Date();
-const minDeliveryTime = new Date();
-minDeliveryTime.setDate(minDeliveryTime.getDate() + 1);
-const maxPickUpTime = new Date();
-maxPickUpTime.setDate(maxPickUpTime.getDate() + 14);
+    for (let i = 0; i < 14; i++) {
+        let futureDate = new Date(today);
+        futureDate.setDate(today.getDate() + i);
+        let formattedDate = futureDate.toLocaleDateString("en-US", { weekday: "short", month: "long", day: "numeric" });
+        let formattedOption = futureDate.toLocaleDateString("en-CA");
+        pickUpOptions += `<option value="${formattedOption}">${formattedDate}</option>`;
+    }
 
-const minPickUpDate = currentTime.toISOString().slice(0, 16);
-const maxDate = maxPickUpTime.toISOString().slice(0, 16);
-const minDeliveryDate = minDeliveryTime.toISOString().slice(0, 16);
+    pickupDateSelect.innerHTML = pickUpOptions;
 
-pickUpTime.min = minPickUpDate;
-pickUpTime.max = maxDate;
+    for (let i = 0; i < 15; i++) {
+        let futureDate = new Date(today);
+        futureDate.setDate(today.getDate() + i);
 
-deliveryTime.min = minDeliveryDate;
-deliveryTime.max = maxDate;
+        if(i === 0){
+            continue;
+        }
+
+        let formattedDate = futureDate.toLocaleDateString("en-US", { weekday: "short", month: "long", day: "numeric" });
+        let formattedOption = futureDate.toLocaleDateString("en-CA");
+        deliveryOptions += `<option value="${formattedOption}">${formattedDate}</option>`;
+    }
+
+    deliveryDateSelect.innerHTML = deliveryOptions;
+}
+
+document.addEventListener("DOMContentLoaded", generateDateOptions);

@@ -1,6 +1,19 @@
 const pool = require("../../config/db")
 const sendVerificationEmail = require("../../mail/verificationEmail");
 
+/**
+ * Handles the resending of a verification email to a user.
+ *
+ * @async
+ * @function resendVerification
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The body of the request.
+ * @param {string} req.body.email - The email address of the user to resend the verification email to.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ * @throws {Error} Returns a 400 status if the email is not registered, or a 500 status for internal server errors.
+ */
+
 const resendVerification = async (req, res) => {
     try{
         const { email }  = req.body;

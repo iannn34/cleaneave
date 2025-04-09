@@ -1,6 +1,22 @@
 const passwordResetEmail = require("../../mail/passwordResetEmail")
 const pool = require("../../config/db")
 
+/**
+ * Handles a password reset request by verifying the user's email, 
+ * sending a password reset email, and responding with appropriate status messages.
+ *
+ * @async
+ * @function passwordResetRequest
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} req.body - The body of the request.
+ * @param {string} req.body.email - The email address of the user requesting a password reset.
+ * @param {Object} res - The HTTP response object.
+ * @returns {Promise<void>} Sends a JSON response with a success or error message.
+ *
+ * @throws {Error} Returns a 404 status if the email is not registered.
+ * @throws {Error} Returns a 500 status if an internal server error occurs.
+ */
+
 const passwordResetRequest = (async (req,res) => {
     try{
         const { email } = req.body;

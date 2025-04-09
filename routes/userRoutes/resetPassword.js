@@ -1,8 +1,26 @@
 const bcrypt = require("bcrypt");
-const pool = require("../../config/db")
-const passwordSchema = require("../../schemas/passwordReset")
 const getUser = require("../../middleware/getUser");
+const passwordSchema = require("../../schemas/password-reset");
+const pool = require("../../config/db");
 
+
+/**
+ * Handles the password reset process for a user.
+ *
+ * @async
+ * @function resetPassword
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} req.params - The route parameters.
+ * @param {string} req.params.token - The token used to identify the user.
+ * @param {Object} req.body - The request body.
+ * @param {string} req.body.password - The new password provided by the user.
+ * @param {Object} res - The HTTP response object.
+ * @returns {void} Sends a JSON response with a redirect URL or an error message.
+ *
+ * @throws {Object} 303 - Redirects to the password reset page if the user is not found.
+ * @throws {Object} 422 - Validation error if the password does not meet the schema requirements.
+ * @throws {Object} 500 - Internal server error for unexpected issues.
+ */
 
 const resetPassword = (async (req, res) => {
     try{
@@ -26,9 +44,6 @@ const resetPassword = (async (req, res) => {
             res.status(422).json({errorMessage: error.details[0].message});
             return;
         }
-
-        //console.error("Registration error:", error);
-        console.log(error);
         res.status(500).json({ message: "Internal server error" });
     }
 })

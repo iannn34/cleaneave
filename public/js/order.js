@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const productRow = document.getElementById("productRow");
-    const totalPriceElement = document.getElementById("totalPrice");
+    const totalPriceElement = document.getElementById("total-price");
     let cart = [];
     let totalPrice = 0;
 
@@ -30,12 +30,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     function displayProducts(products) {
         productRow.innerHTML = ""; // Clear existing content before adding new ones
 
-        products.forEach(product => {
+        products.data.forEach(product => {
             const column = document.createElement("div");
             column.classList.add("col-md-4");
 
             column.innerHTML = `
-                <div class="card">
+                <div class="card m-3">
                     <img src="${product.image_url}" class="card-img-top" alt="${product.description} image">
                     <div class="card-body">
                         <h5 class="card-title">
@@ -44,10 +44,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                         <p class="card-text">Price: ${product.unit_price}</p>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
+                        <li class="list-group-item p-3">
                         Quantity: <input type="number" class="form-control quantity-input" min="0" value="0" data-id="${product.product_id}" data-price="${product.unit_price}">
                         </li>
-                        <li class="list-group-item">
+                        <li class="list-group-item p-3">
                         Service: 
                         <select name="service" class="form-select service-select" data-id="${product.product_id}">
                             <option value="Dry cleaning">Dry cleaning</option>
@@ -57,17 +57,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                         </select>
                         </li>
                     </ul>
-                    <div class="card-body">
-                        <a href="#" class="card-link">Add to Cart</a>
-                    </div>
                 </div>
             `;
 
             productRow.appendChild(column); // Append each product to the container
-        });
-
-        document.querySelectorAll(".quantity-input").forEach(input => {
-            input.addEventListener("input", updateTotalPrice);
         });
     }
 
@@ -98,7 +91,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         totalPrice = total;
     }
 
+    document.querySelectorAll(".service-select").forEach(service => {
+        service.addEventListener("change", updateTotalPrice);
+    })
 
+    document.querySelectorAll(".quantity-input").forEach(input => {
+        input.addEventListener("input", updateTotalPrice);
+    });
+
+    document.getElementById("placeOrder").addEventListener("click", () => {
+        document.getElementById("order-modal").style.display = "flex";
+    });
+
+     document.getElementById("cancelButton").addEventListener("click", () => {
+        document.getElementById("order-modal").style.display = "none";
+    });
 
     document.getElementById("orderForm").addEventListener("submit", async function(event){
         event.preventDefault();
@@ -108,8 +115,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        const pickUpTime = document.getElementById("pickUpTime").value;
-        const deliveryTime = document.getElementById("deliveryTime").value;
+        const pickUpTime = document.getElementById("pickup-date").value+ " " +document.getElementById("pickup-time").value;
+        const deliveryTime = document.getElementById("delivery-date").value+ " " +document.getElementById("delivery-time").value;
 
         let locationData;
 
@@ -117,19 +124,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             const latitude = document.getElementById("latitude").value;
             const longitude = document.getElementById("longitude").value;
 
-            locationData ={
+            locationData = {
                 latitude : latitude,
                 longitude : longitude
             }
         }else{
             const city = document.getElementById("city").value;
-            const town = document.getElementById("town").value;
             const address = document.getElementById("address").value;
+            const zip = document.getElementById("zip-code").value;
 
-            locationData ={
+            locationData = {
                 city : city,
-                town : town,
-                address : address
+                address : address,
+                zip : zip
             }
         }
 
@@ -150,13 +157,31 @@ document.addEventListener("DOMContentLoaded", async () => {
                 body: JSON.stringify(orderData)
             });
 
-            if (response.status === 201) {
-                window.location.href = "/";
+            const result = await response.json();
+
+            if (response.status === 200) {
+                window.location.href = result.redirectURL;
+            } else if(response.status === 500){
+                document.getElementById("order-modal").style.display = "none";
+
+                window.location.hash = "logo"
+                const alert = document.getElementById("message-tab");
+
+                alert.style.display = "block";
+                alert.classList.add("alert-danger");
+                alert.innerHTML = error.message;
             } else {
                 throw new Error("Order failed. Please try again.");
             }
         } catch (error) {
-            alert(`${error}`);
+            document.getElementById("order-modal").style.display = "none";
+
+            window.location.hash = "logo"
+            const alert = document.getElementById("message-tab");
+
+            alert.style.display = "block";
+            alert.classList.add("alert-danger");
+            alert.innerHTML = error.message;
         }
     })
 });

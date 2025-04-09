@@ -1,0 +1,19 @@
+.order-container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.order-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.order-item-card {
+    width: 100%;
+}
+
+.order-item-image {
+    height: 400px;
+    object-fit: cover;
+}

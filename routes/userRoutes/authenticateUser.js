@@ -4,6 +4,24 @@ const pool = require("../../config/db");
 const loginSchema = require("../../schemas/login");
 const sendVerificationMail = require("../../mail/verificationEmail")
 
+/**
+ * Handles user login by validating credentials, checking verification status, 
+ * and generating a JWT token upon successful authentication.
+ *
+ * @async
+ * @function login
+ * @param {Object} req - Express request object.
+ * @param {Object} req.body - The request body containing user credentials.
+ * @param {string} req.body.email - The email address of the user.
+ * @param {string} req.body.password - The password of the user.
+ * @param {Object} res - Express response object.
+ * @returns {void} Sends a JSON response with the login status, token, or error message.
+ *
+ * @throws {Error} Returns a 500 status code for internal server errors or database query errors.
+ * @throws {Error} Returns a 422 status code for validation errors.
+ * @throws {Error} Returns a 401 status code for incorrect email/password combinations.
+ */
+
 const login = async (req,res) => {
     try {
         const { email , password } = req.body;
