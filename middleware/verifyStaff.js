@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const path = require('path');
 
 /**
  * Middleware function to verify if the user is a staff member.
@@ -8,7 +9,7 @@ const jwt = require('jsonwebtoken');
  * Otherwise, a 403 Forbidden status is sent as the response.
  * 
  * @param {Object} req - The request object.
- * @param {Object} req.cookies - The cookies object from the request.
+ * @param {Object} req.cookies - The cookie object from the request.
  * @param {string} req.cookies.token - The JWT token from the cookies.
  * @param {Object} res - The response object.
  * @param {Function} next - The next middleware function.
@@ -22,7 +23,7 @@ function verifyStaff(req, res, next) {
     if(payload && payload.role === 1){
         next();
     }else{
-        res.sendStatus(403);
+        res.status(403).sendFile(path.join(__dirname,"..","public","html","forbidden.html"));
     }
 }
 

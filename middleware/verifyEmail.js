@@ -3,6 +3,25 @@ const sendWelcomeEmail = require("../mail/welcomeEmail");
 const getUser = require("./getUser");
 
 
+/**
+ * Middleware to verify a user's email using a token.
+ * 
+ * This function checks the validity of the token provided in the request parameters,
+ * updates the user's email verification status in the database, and sends a welcome email
+ * upon successful verification. If the token is invalid or expired, or if the user is not found,
+ * appropriate error responses are returned.
+ * 
+ * @async
+ * @function verifyEmail
+ * @param {Object} req - The Express request object.
+ * @param {Object} req.params - The parameters of the request.
+ * @param {string} req.params.token - The token used to verify the user's email.
+ * @param {Object} res - The Express response object.
+ * @returns {Promise<void>} Sends an HTTP response with the appropriate status and message.
+ * 
+ * @throws {Error} Returns a 500 status code with an "Internal Server Error" message if an unexpected error occurs.
+ */
+
 const verifyEmail = (async (req,res) =>{
    try{
        const user_id = await getUser(req.params.token);

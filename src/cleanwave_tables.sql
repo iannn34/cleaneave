@@ -1,4 +1,4 @@
--- Code for the initialization of the tables present in the database
+-- code for the initialization of the tables present in the database
 -- tables present in the database are:
 -- 1. users
 -- 2. roles
@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS products CASCADE;
 DROP TABLE IF EXISTS tokens CASCADE;
 
 
--- Create roles table
+-- Create a role table
 CREATE TABLE roles (
     role_id SERIAL PRIMARY KEY,
     name VARCHAR(10) UNIQUE NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE roles (
 INSERT INTO roles (name)
     VALUES ('staff'), ('customer'),('admin');
 
--- Create users table
+-- Create a user table
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -38,11 +38,11 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Adding the verified field to my users table
+-- Adding the verified field to my users' table
 ALTER TABLE users
     ADD verified BOOLEAN DEFAULT FALSE;
 
--- Create products table
+-- Create a product table
 CREATE TABLE products (
     product_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE products (
     image_url TEXT NOT NULL
 );
 
--- Create orders table
+-- Create an order table
 CREATE TABLE orders (
     order_id SERIAL PRIMARY KEY,
     user_id INT NOT NULL REFERENCES users(user_id),
@@ -63,12 +63,12 @@ CREATE TABLE orders (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Changing the data type of the location column to jsonb from text
+-- Changing the data type of the location column to jsonb
 -- for efficient storage of location date
 ALTER TABLE orders
     ALTER COLUMN location TYPE JSONB USING location::JSONB;
 
--- Create order_items table
+-- Create the order_items table
 CREATE TABLE order_items (
     item_id SERIAL PRIMARY KEY,
     order_id INT NOT NULL REFERENCES orders(order_id),
@@ -78,7 +78,7 @@ CREATE TABLE order_items (
     service TEXT NOT NULL
 );
 
--- Create token table
+-- Create a token table
 CREATE TABLE tokens (
     token_id SERIAL PRIMARY KEY,
     token TEXT NOT NULL,

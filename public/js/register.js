@@ -1,6 +1,12 @@
 document.getElementById("user-register").addEventListener("submit", async function(event){
     event.preventDefault();
 
+    const loader = document.getElementById('loader');
+    const button = document.getElementById('register-submit');
+
+    loader.style.display = 'inline-block';
+    button.style.display = 'none';
+
     const form = document.getElementById("user-register");
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
@@ -43,8 +49,15 @@ document.getElementById("user-register").addEventListener("submit", async functi
     const result = await response.json();
          if (response.ok){
              form.reset()
+
+             loader.style.display = 'none';
+             button.style.display = 'block';
+
              window.location.href = `/verify-email/email/${encodeURIComponent(email)}`;
          }else if(response.status === 422){
+             loader.style.display = 'none';
+             button.style.display = 'block';
+
             result.message.forEach(error => {
                 document.getElementById(error.fieldName).classList.add("is-invalid");
                 document.getElementById(`${error.fieldName}-feedback`).innerText = error.errorMessage;
@@ -53,6 +66,9 @@ document.getElementById("user-register").addEventListener("submit", async functi
                 document.getElementById("password2").value = "";
             })
         }else if(response.status === 400){
+             loader.style.display = 'none';
+             button.style.display = 'block';
+
              document.getElementById("email").classList.add("is-invalid");
              document.getElementById("email-feedback").innerText = result.message;
 

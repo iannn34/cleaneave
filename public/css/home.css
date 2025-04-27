@@ -2,6 +2,11 @@
     background-color: #ffffff;
     padding: 60px 0;
 }
+
+.card-img-top{
+    max-height: 200px;
+    object-fit: cover;
+}
 .service-card {
     display: flex;
     text-align: center;

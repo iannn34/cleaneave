@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             column.innerHTML = `
                 <div class="card m-3">
-                    <img src="${product.image_url}" class="card-img-top" alt="${product.description} image">
+                    <img src="/public/assets/images/${product.product_id}.jpg" class="card-img-top" alt="${product.description} image">
                     <div class="card-body">
                         <h5 class="card-title">
                             <a href="/product/${product.product_id}" class="text-primary text-decoration-none">${product.name}</a>
@@ -110,6 +110,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("orderForm").addEventListener("submit", async function(event){
         event.preventDefault();
 
+        const loader = document.getElementById('loader');
+        const button = document.getElementById('submit-button');
+
+        loader.style.display = 'inline';
+        button.style.display = 'none';
+
         if(cart.length === 0){
             alert("Please add some products to the cart.");
             return;
@@ -160,8 +166,16 @@ document.addEventListener("DOMContentLoaded", async () => {
             const result = await response.json();
 
             if (response.status === 200) {
+                document.getElementById("orderForm").reset();
+
+                loader.style.display = 'none';
+                button.style.display = 'block';
+
                 window.location.href = result.redirectURL;
             } else if(response.status === 500){
+                loader.style.display = 'none';
+                button.style.display = 'block';
+
                 document.getElementById("order-modal").style.display = "none";
 
                 window.location.hash = "logo"
@@ -171,6 +185,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 alert.classList.add("alert-danger");
                 alert.innerHTML = error.message;
             } else {
+                loader.style.display = 'none';
+                button.style.display = 'block';
                 throw new Error("Order failed. Please try again.");
             }
         } catch (error) {

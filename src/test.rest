@@ -36,7 +36,7 @@ POST http://localhost:1337/login
 Content-Type: application/json
 
 {
-    "email": "iankim10834@gmail.com",
+    "email": "iankim5224@gmail.com",
     "password": "Password@1"
 }
 
@@ -52,5 +52,5 @@ Content-Type: application/json
  }
 
 ### Get products route
-GET https://localhost:1337/price-list
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMiwicm9sZSI6MiwiaWF0IjoxNzQzMjY5OTM0LCJleHAiOjE3NDMyNzM1MzR9.K2EsmnDowPP1YNoEnp-v4WE8QmXGmzD9rakYempJZxk
+GET https://localhost:1337/api/order-details/39
+Authorization: Bearer

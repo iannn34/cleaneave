@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard - Clean Wave</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/main.css">
+    <link rel="stylesheet" href="/public/css/staff-dashboard.css">
+</head>
+<body>
+<!-- Header -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="/public/assets/logo.png" alt="Logo">
+        </a>
+        <div class="d-flex">
+            <div class="dropdown" style="width: 150px">
+                <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="/public/assets/profile-icon.png" alt="Profile" class="profile-icon">
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="drop-down-link-1" href=""></a></li>
+                    <li><a class="dropdown-item" id="drop-down-link-2" href=""></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- End of Header -->
+<div class="container py-4">
+    <h2 class="mb-4 fw-bold">Staff Dashboard</h2>
+
+    <!-- Top Summary Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="summary-card bg-success text-center">
+                <h5>Processed Today</h5>
+                <h2 id="processed-today"></h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="summary-card bg-primary text-center">
+                <h5>Received Today</h5>
+                <h2 id="received-today"></h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="summary-card bg-warning text-center">
+                <h5>Due Today</h5>
+                <h2 id="due-today"></h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="summary-card bg-danger text-center">
+                <h5>Overdue Orders</h5>
+                <h2 id="overdue-orders"></h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-3">
+        <form id="order-search" class="row g-3 align-items-center" role="search">
+            <!-- Search input -->
+            <div class="col-md-3">
+                <label for="customer-name" class="form-label">Name</label>
+                <input class="form-control" type="search" id="customer-name" placeholder="Enter customer name" aria-label="Search Customer">
+            </div>
+
+            <!-- Status filter -->
+            <div class="col-md-3">
+                <label for="status-filter" class="form-label">Status</label>
+                <select class="form-select" id="status-filter">
+                    <option value="">All</option>
+                    <option value="pending">Pending</option>
+                    <option value="processing">Processing</option>
+                    <option value="completed">Completed</option>
+                </select>
+            </div>
+
+            <!-- From Date filter -->
+            <div class="col-md-2">
+                <label for="from-date" class="form-label">From</label>
+                <input type="date" class="form-control" id="from-date" aria-label="From Date">
+            </div>
+
+            <!-- To Date filter -->
+            <div class="col-md-2">
+                <label for="to-date" class="form-label">To</label>
+                <input type="date" class="form-control" id="to-date" aria-label="To Date">
+            </div>
+
+            <!-- Submit button -->
+            <div class="col-md-2 d-grid align-self-end">
+                <button class="btn btn-outline-primary" type="submit">Filter</button>
+            </div>
+        </form>
+    </div>
+
+
+    <!-- Orders Table -->
+    <div class="table-container mb-4">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th></th>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Status</th>
+                    <th>Date Received</th>
+                    <th>Date Due</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody id="orders-table">
+                <!-- Filled dynamically -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination Controls -->
+        <nav>
+            <ul class="pagination justify-content-center" id="pagination">
+                <li class="page-item">
+                    <a class="page-link" id="first-page" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" id="previous-page"></a></li>
+                <li class="page-item"><a class="page-link active" id="current-page"></a></li>
+                <li class="page-item"><a class="page-link" id="next-page"></a></li>
+                <li class="page-item">
+                    <a class="page-link" id="last-page" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/public/js/staff-dashboard.js"></script>
+<script src="/public/js/staff-index.js"></script>
+</body>
+</html>

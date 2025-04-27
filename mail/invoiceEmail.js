@@ -30,7 +30,7 @@ const invoiceEmail = (async (orderID) => {
     <head>
         <style>
             body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-family: Arial, sans-serif;
                 background-color: #f8f8f8;
                 padding: 20px;
                 margin: 0;

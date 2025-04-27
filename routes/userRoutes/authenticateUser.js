@@ -58,7 +58,9 @@ const login = async (req,res) => {
                 maxAge: 60 * 60 * 1000
             })
 
-            res.json({ message: "Login successful, token generated" })
+            const redirectURL = (user.rows[0].role_id === 2) ? "/" : "/staff-dashboard?page=1";
+
+            res.status(200).json({ message: "Login successful, token generated",redirectURL : redirectURL })
         } else {
             return res.status(401).json({message : "Incorrect email and password combination. \nPlease try again or click Forgot password to reset your password"});
         }

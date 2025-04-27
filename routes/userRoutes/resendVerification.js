@@ -26,7 +26,7 @@ const resendVerification = async (req, res) => {
 
         await sendVerificationEmail(result.rows[0].user_id , email , result.rows[0].name);
 
-        res.status(200).json({message : `Verification Email sent to ${email}`});
+        res.status(200).json({message : `Verification email resent to ${email}`});
     }catch (error) {
         res.status(500).json({ message : "Internal server error"})
     }

@@ -49,7 +49,7 @@
 
             <!-- Order Modal (Next Step) -->
             <div id="order-modal">
-                <div class="modal-content">
+                <div class="modal-content" style="text-align: center">
                     <h4 class="text-center">Pickup & Delivery</h4>
 
                     <!-- Date Selection Row -->
@@ -107,7 +107,14 @@
                         <input type="text" id="zip-code" name="zip-code" class="form-control mt-2" placeholder="ZIP Code" >
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100 mt-3">Submit Order</button>
+                    <button type="submit" id="submit-button" class="btn btn-primary w-100 mt-3">Submit Order</button>
+
+                    <div id="loader" class="m-2" style="display: none;">
+                        <svg viewBox="25 25 50 50">
+                            <circle r="20" cy="50" cx="50"></circle>
+                        </svg>
+                    </div>
+
                     <button type="button" class="btn btn-secondary w-100 mt-2" id="cancelButton">Cancel</button>
                 </div>
             </div>
