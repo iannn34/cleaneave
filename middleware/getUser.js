@@ -1,5 +1,14 @@
 const pool = require("../config/db");
 
+/**
+ * Retrieves the user ID associated with a valid token from the database.
+ *
+ * @async
+ * @function getUser
+ * @param {string} request - The encoded token from the request.
+ * @returns {Promise<?number>} The user ID if the token is valid, or `null` if no matching user is found.
+ */
+
 async function getUser(request){
     const token = decodeURIComponent(request);
 

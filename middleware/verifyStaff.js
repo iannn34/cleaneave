@@ -20,7 +20,7 @@ function verifyStaff(req, res, next) {
     const token = req.cookies.token;
     const payload = jwt.decode(token);
 
-    if(payload && payload.role === 1){
+    if(payload && payload.role === 1 || 3){
         next();
     }else{
         res.status(403).sendFile(path.join(__dirname,"..","public","html","forbidden.html"));

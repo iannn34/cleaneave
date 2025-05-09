@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Laundromat Business Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/main.css">
+    <link rel="stylesheet" href="/public/css/admin-dashboard.css">
+</head>
+
+<body>
+<!-- Header -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="/public/assets/logo.png" alt="Logo">
+        </a>
+        <div class="d-flex">
+            <div class="dropdown" style="width: 150px">
+                <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="/public/assets/profile-icon.png" alt="Profile" class="profile-icon">
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="drop-down-link-1" href="/logout">Logout</a></li>
+                    <li><a class="dropdown-item" id="drop-down-link-2" href=""></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- End of Header -->
+
+<div class="container py-5">
+    <!-- Header -->
+    <div class="dashboard-header text-center mb-5">
+        <h1 class="fw-bold">Admin Dashboard</h1><hr>
+    </div>
+    <!-- KPI Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Total Customers</h5>
+                    <h3 id="total-customers"></h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Monthly Revenue</h5>
+                    <h3 id="monthly-revenue"></h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Repeat Customers</h5>
+                    <h3 id="repeat-customers"></h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-danger">
+                <div class="card-body">
+                    <h5 class="card-title">Average Order Value</h5>
+                    <h3 id="avg-order"></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graphs Section -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <a href="/admin/revenue-report" class="text-white">Revenue Trends</a>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <canvas id="monthly-revenue-graph"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <a href="/admin/customer-acquisition" class="text-white">Customer acquisition</a>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <canvas id="customer-acquisition-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Pie and Peak Times -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <a href="/admin/service-breakdown" class="text-white">Service breakdown</a>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <canvas id="services-breakdown" style="max-height: 300px"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <a href="/admin/status-count" class="text-white">Status count</a>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <canvas id="status-bar-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tables Section -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    Top Customers
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Customer Name</th>
+                            <th>Number of Orders</th>
+                            <th>Total</th>
+                        </tr>
+                        </thead>
+                        <tbody id="top-customers">
+                        <!--Filled dynamically-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Operational Metrics Section -->
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    Average Turnaround Time
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <h4 id="average-turnaround"></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    Admin actions
+                </div>
+                <div class="card-body text-white">
+                    <div class="d-flex justify-content-start">
+                        <a href="/admin/user-role-update">Update user role</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/public/js/admin-dashboard.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

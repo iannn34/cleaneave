@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         let orderInfo =""
         data.orderData.forEach((order, index)=>{
             let orderDate = new Date(order.created_at);
-            let status = (order.status === "processing") ? "bg-warning" : "bg-success";
+            let status = (order.status === "pending") ? "bg-secondary" : ((order.status === "processing") ?  "bg-warning" : "bg-success");
             orderInfo += `
             <tr>
                     <td>${index + 1}</td>

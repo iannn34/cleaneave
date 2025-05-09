@@ -42,7 +42,7 @@ const register = async (req, res) => {
 
         await sendVerificationEmail(userID,email,name);
 
-        res.status(200).json({message:"Email sent successfully"})
+        res.status(200).json({message:"User registered successfully"});
     } catch (error) {
         if(error.isJoi) {
             res.status(422).json({

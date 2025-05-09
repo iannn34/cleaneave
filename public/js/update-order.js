@@ -83,6 +83,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (response.status === 200) {
             loader.style.display = "none";
             button.style.display = "block";
+            
             window.location.reload();
         }else{
             console.log(result)

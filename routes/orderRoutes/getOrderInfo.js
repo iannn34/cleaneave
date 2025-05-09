@@ -1,5 +1,19 @@
 const pool = require("../../config/db")
 
+/**
+ * Retrieves detailed information about a specific order, including order details and associated items.
+ *
+ * @async
+ * @function getOrderInfo
+ * @param {Object} req - The request object.
+ * @param {Object} req.params - The parameters from the request URL.
+ * @param {string} req.params.id - The ID of the order to retrieve.
+ * @param {Object} res - The response object.
+ * @returns {void} Sends a JSON response containing the order details and items, or an error message.
+ * 
+ * @throws {Error} Returns a 500 status code with an error message if an internal server error occurs.
+ */
+
 const getOrderInfo = async (req,res) => {
     try{
         const orderId = req.params.id;

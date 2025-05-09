@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     function displayData(data) {
         const orderDetailsDiv = document.getElementById("order-details");
-        let status = (data.orderDetails.status === "processing") ? "bg-warning" : "bg-success";
+        let status = (data.orderDetails.status === "pending") ? "bg-secondary" : ((data.orderDetails.status === "processing") ?  "bg-warning" : "bg-success");
 
         orderDetailsDiv.innerHTML = `
             <h4 class="mb-3">Order Details</h4><hr>

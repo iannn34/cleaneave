@@ -1,0 +1,7 @@
+.card {
+    box-shadow: 0 0.15rem 0.75rem rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.dashboard-header {
+    margin-bottom: 30px;
+}

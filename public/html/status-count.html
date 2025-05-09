@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Status count</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/main.css">
+</head>
+
+<body>
+<!-- Header -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="/public/assets/logo.png" alt="Logo">
+        </a>
+        <div class="d-flex">
+            <div class="dropdown" style="width: 150px">
+                <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="/public/assets/profile-icon.png" alt="Profile" class="profile-icon">
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="drop-down-link-1" href=""></a></li>
+                    <li><a class="dropdown-item" id="drop-down-link-2" href=""></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- End of Header -->
+
+<div class="container mt-3">
+    <h1>Status count</h1><hr>
+    <div class="d-flex justify-content-center">
+        <canvas id="status-count" class="m-3" style="max-width: 700px; max-height: 500px; width: 100%; height: auto;"></canvas>
+    </div>
+
+    <h1 class="m-3">Status count</h1><hr>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
+            <tr>
+                <th></th>
+                <th>Status</th>
+                <th>Order count</th>
+            </tr>
+            </thead>
+            <tbody id="status-count-table">
+            <!-- Filled dynamically -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/public/js/status-count.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

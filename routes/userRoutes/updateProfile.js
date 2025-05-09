@@ -26,9 +26,9 @@ const updateProfile = (async (req,res) =>{
         await profileUpdateSchema.validateAsync(req.body,{abortEarly: false});
 
         const userId = getUserId(req.cookies.token);
-    
+
         const { name , email , contact } = req.body;
-    
+
         await pool.query("UPDATE users SET name = $1 , email = $2 , contact = $3 WHERE user_id = $4", [name , email , contact , userId]);
 
         res.status(200).json({message : "Profile updated successfully!"});

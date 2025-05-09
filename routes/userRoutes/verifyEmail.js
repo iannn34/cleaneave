@@ -1,10 +1,9 @@
-const pool = require("../config/db")
-const sendWelcomeEmail = require("../mail/welcomeEmail");
-const getUser = require("./getUser");
+const pool = require("../../config/db")
+const sendWelcomeEmail = require("../../mail/welcomeEmail");
+const getUser = require("../../middleware/getUser");
 
 
 /**
- * Middleware to verify a user's email using a token.
  * 
  * This function checks the validity of the token provided in the request parameters,
  * updates the user's email verification status in the database, and sends a welcome email
@@ -33,7 +32,7 @@ const verifyEmail = (async (req,res) =>{
        const emailDetails = await pool.query("UPDATE users SET verified = true WHERE user_id = $1 RETURNING name,email",[user_id]);
 
        if (emailDetails.rowCount === 0) {
-           return res.status(404).json({ message: "User  not found." });
+           return res.status(404).json({ message: "User not found." });
        }
 
        await sendWelcomeEmail(emailDetails.rows[0].name , emailDetails.rows[0].email)

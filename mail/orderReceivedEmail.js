@@ -2,6 +2,25 @@ const transporter = require("../config/mail");
 const fs = require("node:fs");
 const path = require("path");
 
+/**
+ * Sends an email notification to the customer when their laundry order is received.
+ *
+ * @async
+ * @function orderReceived
+ * @param {Object} data - The data required to generate the email.
+ * @param {Object} data.orderDetails - Details of the order.
+ * @param {string} data.orderDetails.name - The name of the customer.
+ * @param {number} data.orderDetails.order_id - The unique ID of the order.
+ * @param {string} data.orderDetails.date - The date the order was posted.
+ * @param {string} data.orderDetails.email - The email address of the customer.
+ * @param {Array<Object>} data.orderItems - List of items in the order.
+ * @param {string} data.orderItems[].name - The name of the item.
+ * @param {number} data.orderItems[].quantity - The quantity of the item.
+ * @param {string} data.orderItems[].service - The service associated with the item.
+ * @returns {Promise<void>} Resolves when the email is sent successfully.
+ * @throws {Error} Throws an error if the email fails to send.
+ */
+
 const orderReceived = async (data) =>  {
     let itemsHTML = "";
 
@@ -160,5 +179,3 @@ const orderReceived = async (data) =>  {
 }
 
 module.exports = orderReceived;
-
-

@@ -3,6 +3,24 @@ const pool = require("../config/db")
 const path = require("path");
 const transporter = require("../config/mail");
 
+/**
+ * Sends an invoice email to the user based on the provided order ID.
+ *
+ * This function retrieves order and item details from the database, generates
+ * an HTML email with the order summary, and sends it to the user's email address.
+ *
+ * @async
+ * @function invoiceEmail
+ * @param {number} orderID - The unique identifier of the order.
+ * @returns {Promise<void>} Resolves when the email is successfully sent, or logs an error if sending fails.
+ *
+ * @throws {Error} Throws an error if there is an issue querying the database or sending the email.
+ *
+ * @example
+ * // Call the function with an order ID
+ * await invoiceEmail(12345);
+ */
+
 const invoiceEmail = (async (orderID) => {
    const orderInfo = await pool.query("SELECT name, email, total_price, pickup_time, delivery_time, orders.created_at as date FROM orders INNER JOIN users ON orders.user_id = users.user_id WHERE order_id = $1", [orderID]);
    const items = await pool.query("SELECT name, quantity, total_unit_price as price , service FROM order_items INNER JOIN products ON order_items.product_id = products.product_id WHERE order_id = $1", [orderID]);
@@ -214,9 +232,9 @@ const invoiceEmail = (async (orderID) => {
 
     try {
         const result = await transporter.sendMail(mailOptions);
-        console.log("Email sent successfully:", result);
+        return true;
     } catch (error) {
-        console.error("Error sending email:", error);
+        return false;
     }
 });
 

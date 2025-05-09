@@ -8,7 +8,7 @@ require("dotenv").config();
  * @function sendWelcomeEmail
  * @param {string} name - The name of the recipient.
  * @param {string} email - The email address of the recipient.
- * @returns {Promise<void>} Resolves when the email is sent successfully, or logs an error if sending fails.
+ * @returns {Promise<boolean>} Resolves when the email is sent successfully, or logs an error if sending fails.
  */
 
 const sendWelcomeEmail = async (name, email) =>  {
@@ -46,9 +46,9 @@ const sendWelcomeEmail = async (name, email) =>  {
 
     try {
         const result = await transporter.sendMail(mailOptions);
-        console.log("Email sent successfully:", result);
+        return true;
     } catch (error) {
-        console.error("Error sending email:", error);
+        return false;
     }
 }
 

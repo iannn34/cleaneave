@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async function() {
                 <td>${index + 1}</td>
                 <td><a href="/update-order-status/${order.order_id}">ORD0${order.order_id}</a></td>
                 <td>${order.name}</td>
-                <td>${order.status}</td>
+                <td>${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</td>
                 <td>${order.pickup_time}</td>
                 <td>${order.delivery_time}</td>
                 <td>${order.total_price}</td>`
@@ -90,5 +90,9 @@ document.addEventListener("DOMContentLoaded", async function() {
         }catch(error){
             console.log(error);
         }
+    })
+
+    document.getElementById("test-button").addEventListener("click", async function (event){
+        console.log(window.location.href);
     })
 })

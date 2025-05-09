@@ -2,6 +2,20 @@ const fs = require("fs")
 const path = require("path");
 const transporter = require("../config/mail");
 
+/**
+ * Sends an email notification to the user when their laundry order is completed.
+ *
+ * @async
+ * @function orderCompleted
+ * @param {Object} data - The data required to send the email.
+ * @param {string} data.name - The name of the customer.
+ * @param {string} data.email - The email address of the customer.
+ * @param {number} data.order_id - The unique identifier for the order.
+ * @param {string} data.date - The date the order was posted.
+ * @returns {Promise<void>} - Resolves when the email is sent successfully.
+ * @throws {Error} - Throws an error if the email fails to send.
+ */
+
 const orderCompleted = async (data) =>  {
     let message = `
     <!DOCTYPE html>
@@ -121,5 +135,3 @@ const orderCompleted = async (data) =>  {
 }
 
 module.exports = orderCompleted;
-
-
