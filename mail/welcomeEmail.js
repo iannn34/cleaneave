@@ -25,9 +25,9 @@ const sendWelcomeEmail = async (name, email) =>  {
         </ul>
 
         <h3>Get Started:</h3>
-        <p>👉 <a href="${process.env.BASE_URL}/order">Place a New Order</a></p>
-        <p>👉 <a href="[Insert Tracking Link]">Track Your Laundry</a></p>
-        <p>👉 <a href="${process.env.BASE_URL}/profile">Manage Your Account</a></p>
+        <p>👉 <a href="${process.env.BASE_URL}/price-list">View our prices.</a></p>
+        <p>👉 <a href="${process.env.BASE_URL}/order">Place a New Order.</a></p>
+        <p>👉 <a href="${process.env.BASE_URL}/profile">Manage Your Account.</a></p>
 
         <p>If you have any questions or need assistance, our support team is always ready to help. Reach us at <a href="mailto:cleanwavemail@gmail.com">cleanwavemail@gmail.com</a>.</p>
 
@@ -48,7 +48,7 @@ const sendWelcomeEmail = async (name, email) =>  {
         const result = await transporter.sendMail(mailOptions);
         return true;
     } catch (error) {
-        return false;
+        console.log("Error sending email:" , error)
     }
 }
 

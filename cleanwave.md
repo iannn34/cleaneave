@@ -43,4 +43,6 @@ CleanWave is a lightweight, user-friendly platform that enables laundromat busin
 
 Thank you for exploring **CleanWave** — a system designed to make laundromat operations smoother, smarter, and more customer-focused.
 
+--- 
+
 **May the force be with you.**

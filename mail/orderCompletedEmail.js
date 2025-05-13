@@ -128,7 +128,6 @@ const orderCompleted = async (data) =>  {
 
     try {
         const result = await transporter.sendMail(mailOptions);
-        console.log("Email sent successfully:", result);
     } catch (error) {
         console.error("Error sending email:", error);
     }

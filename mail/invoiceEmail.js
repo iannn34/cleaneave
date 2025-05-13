@@ -234,7 +234,7 @@ const invoiceEmail = (async (orderID) => {
         const result = await transporter.sendMail(mailOptions);
         return true;
     } catch (error) {
-        return false;
+        console.log("Error sending email: ", error)
     }
 });
 
